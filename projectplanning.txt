@@ -1,0 +1,34 @@
+1. Projects table: project_id, title, project_leader_id, 
+                   project_member_ids
+   Tasks table: project_id, user_id, task_id, title, 
+                description, time_estimation, status
+
+2. Projects and Tasks have a one to many relationship
+   User and Projects have a many to many relationship
+   UserRole and Projects have a many to many relationship
+   User and Tasks have a one to many relationship
+
+3. Each UserRole will have a userid that links to a user
+   and a contextid that links to a project. Each project
+   has contextids that link back to specific UserRoles which
+   point to a user.
+
+4. Projects Controller
+   POST /projects - Creates a new project
+   GET /projects - Lists all projects for the current user
+   GET /projects/:id - Finds the project by the id and returns it, along with all tasks / project members to the client
+   PATCH /projects/:id -- Add user to project
+
+
+   Tasks Controller
+   POST  /projects/:project_id/tasks - Create a task in a project
+   GET   /projects/:project_id/tasks - Lists all tasks in a specific project
+   GET   /projects/:project_id/tasks/:task_id - Find a specific task from a specific project_id
+   PATCH /projects/:project_id/tasks/:task_id - Updating the completion status of a task
+   PATCH /projects/:project_id/tasks/:task_id - Assigning user to a task
+
+5. All users can create a project and access projects that they're a part of
+   All project members can create tasks and assign themselves to a task and complete tasks they are assigned to
+   The project leader can invite other users to project and assign tasks to other project members
+
+
