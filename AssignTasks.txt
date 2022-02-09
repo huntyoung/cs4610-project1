@@ -1,0 +1,18 @@
+ToDo:
+
+Create Project and Task entity- Levi
+
+Create Project controller- Hunter
+
+Create Task controller- Spencer
+
+Update users.modules.ts- Levi
+
+Create Projects service file- Spencer
+
+Create Task services file- Hunter
+
+Create Main page component:
+	Projects screen
+	Tasks Screen
+	New Project Screen
