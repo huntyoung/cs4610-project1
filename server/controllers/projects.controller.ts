@@ -1,10 +1,12 @@
 import { Body, Controller, Get, Param, Patch, Post, Put } from '@nestjs/common';
 import { JwtBody } from 'server/decorators/jwt_body.decorator';
 import { JwtBodyDto } from 'server/dto/jwt_body.dto';
+import { Project } from 'server/entities/project.entity';
+import { UserProject } from 'server/entities/user_project.entity';
 import { ProjectsService } from 'server/providers/services/projects.service';
 
 class ProjectPostBody {
-    title: string;
+    name: string;
 }
 
 class UserProjectPostBody {
@@ -31,20 +33,20 @@ export class ProjectsController {
     @Post('/projects')
     public async create(@JwtBody() jwtBody: JwtBodyDto, @Body() body: ProjectPostBody) {
         let project = new Project();
-        project.title = body.title;
-        project.userId = jwtBody.userId;
+        project.name = body.name;
+        project.creatorId = jwtBody.userId;
         project = await this.projectsService.createProject(project);
         return { project };
     }
 
     // add user to project
-    @Post('/projects/:userId')
+    @Patch('/projects')
     public async add(@JwtBody() jwtBody: JwtBodyDto, @Body() body: UserProjectPostBody) {
         // use UserProject table
         let userProject = new UserProject();
         userProject.userId = body.userId;
         userProject.projectId = body.projectId;
-        userProject = await this.projectsService.createProject(userProject);
+        userProject = await this.projectsService.addUserToProject(userProject);
         return { userProject };
     }
 }
