@@ -9,6 +9,7 @@ export class ProjectsService{
     constructor(
         @InjectRepository(Project)
         private projectRepository: Repository<Project>,
+        @InjectRepository(UserProject)
         private userProjectRepository: Repository<UserProject>,
      ) {}
 
