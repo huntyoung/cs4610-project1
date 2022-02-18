@@ -15,11 +15,12 @@ import { TasksService } from '../providers/services/tasks.service';
 import { ProjectsService } from '../providers/services/projects.service';
 import { TasksController } from '../controllers/tasks.controller';
 import { ProjectsController } from '../controllers/projects.controller';
+import { Project } from '../entities/project.entity';
 
 @Module({
   imports: [TypeOrmModule.forFeature([User, RefreshToken, Role, UserRole])],
-  controllers: [SessionsController, UsersController, RefreshTokensController, TasksController, ProjectsController],
-  providers: [UsersService, RolesService, RefreshTokensService, JwtService, TasksService, ProjectsService],
-  exports: [],
+  controllers: [SessionsController, UsersController, RefreshTokensController],
+  providers: [UsersService, RolesService, RefreshTokensService, JwtService],
+  exports: [TypeOrmModule],
 })
 export class UsersModule {}
