@@ -12,11 +12,13 @@ export const Home = () => {
   const roles = useContext(RolesContext);
   const navigate = useNavigate();
 
+  const [projects, setProjects] = useState([]);
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState(null);
   useEffect(async () => {
     const res = await api.get('/users/me');
-    const projects = await api.get('/projects');
+    const proj = await api.get('/projects');
+    setProjects(proj.projects);
     setUser(res.user);
     setLoading(false);
   }, []);
