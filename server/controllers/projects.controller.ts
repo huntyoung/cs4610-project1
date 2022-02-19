@@ -23,7 +23,7 @@ export class ProjectsController {
         const projects = await this.projectsService.findAllProjectsForUser(jwtBody.userId);
         return { projects };
     }
-
+    
     @Get('/projects/:id')
     public async getNote(@JwtBody() jwtBody: JwtBodyDto, @Param('id') id: string) {
         const project = await this.projectsService.findProjectById(parseInt(id));
@@ -40,7 +40,7 @@ export class ProjectsController {
     }
 
     // add user to project
-    @Patch('/projects')
+    @Put('/projects')
     public async add(@JwtBody() jwtBody: JwtBodyDto, @Body() body: UserProjectPostBody) {
         // use UserProject table
         let userProject = new UserProject();
