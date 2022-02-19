@@ -4,18 +4,19 @@ import { ApiContext } from '../../utils/api_context';
 import { AuthContext } from '../../utils/auth_context';
 import { RolesContext } from '../../utils/roles_context';
 import { Button } from '../common/button';
+import { Projects } from './projects';
 
 export const Home = () => {
   const [, setAuthToken] = useContext(AuthContext);
   const api = useContext(ApiContext);
   const roles = useContext(RolesContext);
-
   const navigate = useNavigate();
 
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState(null);
   useEffect(async () => {
     const res = await api.get('/users/me');
+    const projects = await api.get('/projects');
     setUser(res.user);
     setLoading(false);
   }, []);
@@ -34,6 +35,7 @@ export const Home = () => {
   return (
     <div className="p-4">
       <h1>Welcome {user.firstName}</h1>
+      <Projects projects={projects} />
       <Button type="button" onClick={logout}>
         Logout
       </Button>
