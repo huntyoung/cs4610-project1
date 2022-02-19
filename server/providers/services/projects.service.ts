@@ -11,11 +11,11 @@ export class ProjectsService{
         private projectRepository: Repository<Project>,
         @InjectRepository(UserProject)
         private userProjectRepository: Repository<UserProject>,
-     ) {}
-
-     findAllProjectsForUser(userId: number): Promise<Project[]> {
+        ) {}
+        
+     findAllProjectsForUser(id: number): Promise<Project[]> {
          return this.projectRepository.find({
-             where: { userId },
+             where: { id },
          })
      }
 
