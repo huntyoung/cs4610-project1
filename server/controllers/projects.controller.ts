@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Patch, Post, Put } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpException, Param, Patch, Post, Put } from '@nestjs/common';
 import { JwtBody } from 'server/decorators/jwt_body.decorator';
 import { JwtBodyDto } from 'server/dto/jwt_body.dto';
 import { Project } from 'server/entities/project.entity';
@@ -30,12 +30,19 @@ export class ProjectsController {
     return { project };
   }
 
+  // create project and add project creator to project through user_project table
   @Post('/projects')
   public async create(@JwtBody() jwtBody: JwtBodyDto, @Body() body: ProjectPostBody) {
     let project = new Project();
     project.name = body.name;
     project.creatorId = jwtBody.userId;
     project = await this.projectsService.createProject(project);
+
+    const userProject = new UserProject();
+    userProject.userId = jwtBody.userId;
+    userProject.projectId = project.id;
+    this.projectsService.addUserToProject(userProject);
+
     return { project };
   }
 
@@ -48,5 +55,15 @@ export class ProjectsController {
     userProject.projectId = body.projectId;
     userProject = await this.projectsService.addUserToProject(userProject);
     return { userProject };
+  }
+
+  @Delete('/projects/:id')
+  public async destroy(@Param('id') id: string, @JwtBody() jwtBody: JwtBodyDto) {
+    const project = await this.projectsService.findProjectById(parseInt(id, 10));
+    if (project.creatorId !== jwtBody.userId) {
+      throw new HttpException('Unauthorized', 401);
+    }
+    this.projectsService.removeProject(project);
+    return { success: true };
   }
 }

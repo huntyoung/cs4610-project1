@@ -14,10 +14,15 @@ export class ProjectsService {
     private userProjectRepository: Repository<UserProject>,
   ) {}
 
-  findAllProjectsForUser(userId: number): Promise<Project[]> {
-    return this.projectRepository.find({
-      where: { creatorId: userId },
+  async findAllProjectsForUser(userId: number): Promise<Project[]> {
+    const userProjects = this.userProjectRepository.find({
+      where: { userId },
     });
+
+    const projectIds = [];
+    (await userProjects).forEach((project) => projectIds.push(project.projectId));
+
+    return this.projectRepository.findByIds(projectIds);
   }
 
   findProjectById(id: number) {
@@ -30,5 +35,9 @@ export class ProjectsService {
 
   addUserToProject(userProject: UserProject) {
     return this.userProjectRepository.save(userProject);
+  }
+
+  removeProject(project: Project) {
+    this.projectRepository.delete(project);
   }
 }

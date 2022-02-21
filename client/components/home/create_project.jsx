@@ -1,26 +1,34 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import { Paper } from '../common/paper';
 import { Input } from '../common/input';
 import { Button } from '../common/button';
+import { ApiContext } from '../../utils/api_context';
 
-export const CreateProject = ({ saveProject }) => {
+export const CreateProject = ({ addToList }) => {
+  const api = useContext(ApiContext);
   const [projectName, setProjectName] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
 
-  const buttonClicked = async () => {
+  const saveProject = async () => {
     if (projectName === '') {
       setErrorMessage("Project name can't be empty");
       return;
-    } else saveProject(projectName);
+    } else {
+      const projectBody = {
+        name: projectName,
+      };
+      const { project } = await api.post('/projects', projectBody);
+
+      addToList(project);
+    }
   };
 
   return (
-    <div>
+    <div className="w-1/3">
       <Paper>
-        <h2>Create Project</h2>
-        <div>Project Name</div>
-        <Input value={projectName} onChange={(e) => setProjectName(e.target.value)} />
-        <Button onClick={buttonClicked}>Create Project</Button>
+        <h2 className="font-bold text-2xl">Create Project</h2>
+        <Input placeholder="Project Name" value={projectName} onChange={(e) => setProjectName(e.target.value)} />
+        <Button onClick={saveProject}>Create Project</Button>
         <div className="text-red-600">{errorMessage}</div>
       </Paper>
     </div>

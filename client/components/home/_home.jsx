@@ -18,13 +18,11 @@ export const Home = () => {
   const [projects, setProjects] = useState([]);
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState(null);
-  const [projectName, setProjectName] = useState('');
-  const [errorMessage, setErrorMessage] = useState('');
 
   useEffect(async () => {
     const res = await api.get('/users/me');
-    const proj = await api.get('/projects');
-    setProjects(proj.projects);
+    const { projects } = await api.get('/projects');
+    setProjects(projects);
     setUser(res.user);
     setLoading(false);
   }, []);
@@ -36,13 +34,17 @@ export const Home = () => {
     }
   };
 
-  const saveProject = async (projectName) => {
-    const projectBody = {
-      name: projectName,
-    };
-    const { project } = await api.post('/projects', projectBody);
-
+  const addToList = async (project) => {
     setProjects([...projects, project]);
+  };
+
+  const deleteProject = async (project) => {
+    const { success } = await api.del(`/projects/${project.id}`);
+    if (success) {
+      setProjects(projects.filter((n) => n !== project));
+    } else {
+      // setErrorMessage('Deletion failed. Please refresh and try again.');
+    }
   };
 
   if (loading) {
@@ -62,8 +64,8 @@ export const Home = () => {
           </Button>
         )}
       </div>
-      <CreateProject saveProject={saveProject} />
-      <Projects projects={projects} />
+      <CreateProject addToList={addToList} />
+      <Projects projects={projects} userId={user.id} deleteProject={deleteProject} />
     </>
   );
 };

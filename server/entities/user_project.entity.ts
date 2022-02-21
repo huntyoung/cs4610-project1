@@ -1,4 +1,4 @@
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { User } from './user.entity';
 import { Project } from './project.entity';
 
@@ -14,8 +14,8 @@ export class UserProject {
   userId: number;
 
   @ManyToOne(() => Project, (project) => project.userProjects)
-  project: Project
+  project: Project;
 
   @ManyToOne(() => User, (user) => user.userProjects)
-  user: User
+  user: User;
 }
