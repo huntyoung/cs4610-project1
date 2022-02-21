@@ -28,5 +28,5 @@ export class User {
   userRoles: UserRole[];
 
   @OneToMany(() => UserProject, (userProject) => userProject.user)
-  userProjects: UserProject[]
+  userProjects: UserProject[];
 }

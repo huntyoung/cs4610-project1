@@ -11,7 +11,7 @@ export const Router = () => {
 
   return (
     <Routes>
-      <Route path="/" element={authToken ? <Home /> : <Navigate replace to="signin" />}/>
+      <Route path="/" element={authToken ? <Home /> : <Navigate replace to="signin" />} />
       <Route path="admin" element={<Admin />} />
       <Route path="signin" element={<SignIn />} />
       <Route path="signup" element={<SignUp />} />
