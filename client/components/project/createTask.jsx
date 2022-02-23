@@ -18,8 +18,8 @@ export const CreateTask = ({ addToList, projectId }) => {
       setErrorMessage("Task name can't be empty");
       return;
     } 
-    if (time === 0) {
-      setErrorMessage("Time estimation can't be 0");
+    if (time < 1) {
+      setErrorMessage("Time estimation can't be 0 or less");
       return;
     }
     if (description === '') {
