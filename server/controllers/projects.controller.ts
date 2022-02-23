@@ -9,7 +9,7 @@ class ProjectPostBody {
   name: string;
 }
 
-class UserProjectPostBody {
+class UserProjectPutBody {
   userId: number;
   projectId: number;
 }
@@ -48,13 +48,17 @@ export class ProjectsController {
 
   // add user to project
   @Put('/projects')
-  public async add(@JwtBody() jwtBody: JwtBodyDto, @Body() body: UserProjectPostBody) {
+  public async add(@Body() body: UserProjectPutBody) {
     // use UserProject table
-    let userProject = new UserProject();
+    const userProject = new UserProject();
     userProject.userId = body.userId;
     userProject.projectId = body.projectId;
-    userProject = await this.projectsService.addUserToProject(userProject);
-    return { userProject };
+    if ((await this.projectsService.getUserProject(userProject)) !== undefined) {
+      return false;
+    } else {
+      await this.projectsService.addUserToProject(userProject);
+      return true;
+    }
   }
 
   @Delete('/projects/:id')
