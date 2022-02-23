@@ -17,15 +17,16 @@ export const ProjectPage = () => {
   const [userId, setUserId] = useState('');
   const [projCreator, setProjCreator] = useState(null);
   const [tasks, setTasks] = useState([]);
+  const [name, setName] = useState('');
 
   useEffect(async () => {
     const res = await api.get('/users/me');
     const project = await api.get(`/projects/${projectId}`);
     const tasks = await api.get(`projects/${projectId}/tasks`);
+    setName(project.project.name);
     setTasks(tasks.tasks);
     setProjCreator(project.project.creatorId);
     setProject(project.project);
-    console.log("I am " + res.user.id)
     setUserId(res.user.id);
   }, []);
 
@@ -56,6 +57,7 @@ export const ProjectPage = () => {
 
   return (
     <>
+      <div>{name}</div>
       <div>You are user number: {userId}</div>
       {projCreator === userId ? (
         <div>
