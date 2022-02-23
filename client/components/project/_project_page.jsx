@@ -1,8 +1,10 @@
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { ApiContext } from '../../utils/api_context';
 import { Button } from '../common/button';
 import { Input } from '../common/input';
+import { CreateTask } from './createTask';
+import { Task } from './task';
 
 export const ProjectPage = () => {
   const { id: projectId } = useParams();
@@ -11,6 +13,22 @@ export const ProjectPage = () => {
   const [email, setEmail] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
+  const [project, setProject] = useState(null);
+  const [userId, setUserId] = useState(null);
+  const [projCreator, setProjCreator] = useState(null);
+  const [tasks, setTasks] = useState([]);
+
+  useEffect(async () => {
+    const res = await api.get('/users/me');
+    const project = await api.get(`/projects/${projectId}`);
+    const tasks = await api.get(`projects/${projectId}/tasks`);
+    console.log(tasks.tasks[0])
+    setTasks(tasks.tasks);
+    setProjCreator(project.project.creatorId);
+    setProject(project.project);
+    setUserId(res.user.id);
+  }, []);
+
 
   const addUser = async () => {
     setSuccessMessage('');
@@ -33,8 +51,6 @@ export const ProjectPage = () => {
     }
   };
 
-  const [tasks, setTasks] = useState([]);
-
   const addTask = async (task) => {
     setTasks([...tasks, task]);
   };
@@ -49,6 +65,7 @@ export const ProjectPage = () => {
         <div className="text-green-600">{successMessage}</div>
       </div>
       <CreateTask addToList={addTask} projectId={projectId} />
+      <Task projectId={projectId} tasks={tasks} leader={projCreator} user={userId}/>
     </>
   );
 };
