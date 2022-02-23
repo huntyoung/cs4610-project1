@@ -4,7 +4,7 @@ import { ApiContext } from '../../utils/api_context';
 import { Button } from '../common/button';
 import { Input } from '../common/input';
 import { CreateTask } from './createTask';
-// import { Task } from './task';
+import { Task } from './task';
 
 export const ProjectPage = () => {
   const { id: projectId } = useParams();
@@ -56,9 +56,9 @@ export const ProjectPage = () => {
 
   return (
     <>
+      <div>You are user number: {userId}</div>
       {projCreator === userId ? (
         <div>
-          <div>{projectId}</div>
           <Input
             placeholder="Add User by Email"
             type="email"
@@ -73,7 +73,7 @@ export const ProjectPage = () => {
         ''
       )}
       <CreateTask addToList={addTask} projectId={projectId} />
-      {/* <Task projectId={projectId} tasks={tasks} leader={projCreator} user={userId} /> */}
+      <Task projectId={projectId} tasks={tasks} leader={projCreator} user={userId} />
     </>
   );
 };
