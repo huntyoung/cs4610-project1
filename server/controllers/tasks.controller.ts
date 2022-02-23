@@ -38,12 +38,12 @@ export class TasksController{
       return { task }
   }
 
-  @Patch('/projects/:project_id/tasks/:task_id')
+  @Post('/projects/:project_id/tasks/:task_id')
   public async markComplete(@Param('task_id') taskId: string, @JwtBody() JwtBody: JwtBodyDto) {
       this.tasksService.updateCompleted(<number><unknown>taskId);
   }
 
-  @Patch('/projects/:project_id/tasks/:task_id/:id/')
+  @Post('/projects/:project_id/tasks/:task_id/:id/')
   public async assignToUser(@Param('task_id') taskId: string, @JwtBody() JwtBody: JwtBodyDto) {
       this.tasksService.assignUser(<number><unknown>taskId, JwtBody.userId);
   }
