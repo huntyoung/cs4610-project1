@@ -33,6 +33,12 @@ export const ProjectPage = () => {
     }
   };
 
+  const [tasks, setTasks] = useState([]);
+
+  const addTask = async (task) => {
+    setTasks([...tasks, task]);
+  };
+
   return (
     <>
       <div>
@@ -42,6 +48,7 @@ export const ProjectPage = () => {
         <div className="text-red-600">{errorMessage}</div>
         <div className="text-green-600">{successMessage}</div>
       </div>
+      <CreateTask addToList={addTask} projectId={projectId} />
     </>
   );
 };
