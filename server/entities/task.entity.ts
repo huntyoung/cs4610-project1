@@ -9,8 +9,11 @@ export class Task {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @OneToOne(() => Project, (project) => project.id)
+  @Column()
   projectId: number;
+
+  @Column()
+  title: string;
 
   @Column({ nullable: false })
   description: string;
@@ -19,12 +22,11 @@ export class Task {
   completed: boolean;
 
   @Column({ nullable: false })
-  time_estimation: number;
-
-  @ManyToOne(() => Project, (project => project.tasks))
-  project: Project;
+  timeEstimation: number;
 
   @Column()
   userId: number;
-
+  
+  @ManyToOne(() => Project, (project) => project.tasks)
+  project: Project;
 }

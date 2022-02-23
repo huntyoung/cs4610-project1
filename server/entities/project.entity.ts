@@ -17,6 +17,6 @@ export class Project {
   @OneToMany(() => UserProject, (userProject) => userProject.project)
   userProjects: UserProject[];
 
-  @OneToMany(() => Task, (task) => task.project)
+  @OneToMany(() => Task, (task) => task.projectId)
   tasks: Task[];
 }
