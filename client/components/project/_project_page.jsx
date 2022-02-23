@@ -14,7 +14,7 @@ export const ProjectPage = () => {
   const [errorMessage, setErrorMessage] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
   const [project, setProject] = useState(null);
-  const [userId, setUserId] = useState(null);
+  const [userId, setUserId] = useState('');
   const [projCreator, setProjCreator] = useState(null);
   const [tasks, setTasks] = useState([]);
 
@@ -25,6 +25,7 @@ export const ProjectPage = () => {
     setTasks(tasks.tasks);
     setProjCreator(project.project.creatorId);
     setProject(project.project);
+    console.log("I am " + res.user.id)
     setUserId(res.user.id);
   }, []);
 
