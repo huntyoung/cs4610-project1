@@ -58,9 +58,9 @@ export const ProjectPage = () => {
   return (
     <>
       <div>{name}</div>
+      <div>You are user number: {userId}</div>
       {projCreator === userId ? (
         <div>
-          <div>{projectId}</div>
           <Input
             placeholder="Add User by Email"
             type="email"

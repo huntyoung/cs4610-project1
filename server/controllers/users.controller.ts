@@ -39,8 +39,14 @@ export class UsersController {
   }
 
   @Get('/users/:email')
-  async findUser(@Param('email') email: string) {
+  async findUserByEmail(@Param('email') email: string) {
     const user = await this.usersService.findBy({ email });
+    return { user };
+  }
+
+  @Get('/users/id/:id')
+  async findUserById(@Param('id') id: string) {
+    const user = await this.usersService.findBy({ id: parseInt(id) });
     return { user };
   }
 

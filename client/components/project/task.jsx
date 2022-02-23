@@ -4,15 +4,14 @@ import { Button } from "../common/button";
 import { TaskCard } from "./taskCard";
 
 export const Task = ({ projectId, tasks, leader }) => {
-
   const api = useContext(ApiContext);
 
   const [userId, setUserId] = useState(null);
 
-  useEffect(async() => {
-    const res = await api.get('/users/me')
+  useEffect(async () => {
+    const res = await api.get('/users/me');
     setUserId(res.user.id);
-  }, [])
+  }, []);
 
   return (
     tasks.map((task) => (
@@ -21,4 +20,4 @@ export const Task = ({ projectId, tasks, leader }) => {
       </div>
     ))
   );
-}
+};
