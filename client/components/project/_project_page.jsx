@@ -4,7 +4,7 @@ import { ApiContext } from '../../utils/api_context';
 import { Button } from '../common/button';
 import { Input } from '../common/input';
 import { CreateTask } from './createTask';
-import { Task } from './task';
+// import { Task } from './task';
 
 export const ProjectPage = () => {
   const { id: projectId } = useParams();
@@ -22,13 +22,12 @@ export const ProjectPage = () => {
     const res = await api.get('/users/me');
     const project = await api.get(`/projects/${projectId}`);
     const tasks = await api.get(`projects/${projectId}/tasks`);
-    console.log(tasks.tasks[0])
+    console.log(tasks.tasks[0]);
     setTasks(tasks.tasks);
     setProjCreator(project.project.creatorId);
     setProject(project.project);
     setUserId(res.user.id);
   }, []);
-
 
   const addUser = async () => {
     setSuccessMessage('');
@@ -47,7 +46,7 @@ export const ProjectPage = () => {
         setSuccessMessage('User successfully added');
       } else setErrorMessage('User is already added');
     } else {
-      setErrorMessage('User does not exist or is already added');
+      setErrorMessage('User does not exist');
     }
   };
 
@@ -57,15 +56,24 @@ export const ProjectPage = () => {
 
   return (
     <>
-      <div>
-        <div>{projectId}</div>
-        <Input placeholder="Add User by Email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
-        <Button onClick={addUser}>Add User</Button>
-        <div className="text-red-600">{errorMessage}</div>
-        <div className="text-green-600">{successMessage}</div>
-      </div>
+      {projCreator === userId ? (
+        <div>
+          <div>{projectId}</div>
+          <Input
+            placeholder="Add User by Email"
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+          <Button onClick={addUser}>Add User</Button>
+          <div className="text-red-600">{errorMessage}</div>
+          <div className="text-green-600">{successMessage}</div>
+        </div>
+      ) : (
+        ''
+      )}
       <CreateTask addToList={addTask} projectId={projectId} />
-      <Task projectId={projectId} tasks={tasks} leader={projCreator} user={userId}/>
+      {/* <Task projectId={projectId} tasks={tasks} leader={projCreator} user={userId} /> */}
     </>
   );
 };
