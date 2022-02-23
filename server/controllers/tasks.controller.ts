@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Patch, Post } from "@nestjs/common";
+import { Body, Controller, Get, Param, Patch, Post, Put } from "@nestjs/common";
 import { Console } from "console";
 import { JwtBody } from "server/decorators/jwt_body.decorator";
 import { JwtBodyDto } from "server/dto/jwt_body.dto";
@@ -40,9 +40,10 @@ export class TasksController{
       return { task }
   }
 
-  @Post('/projects/:project_id/tasks/:task_id')
-  public async markComplete(@Param('task_id') taskId: string, @JwtBody() JwtBody: JwtBodyDto) {
-      this.tasksService.updateCompleted(<number><unknown>taskId);
+  @Put('/projects/:project_id/tasks/:task_id')
+  public async updateCompleted(@Param('task_id') taskId: string, @JwtBody() JwtBody: JwtBodyDto) {
+      const task = this.tasksService.updateCompleted(<number><unknown>taskId);
+      return { task }
   }
 
   @Post('/projects/:project_id/tasks/:task_id/:id/')

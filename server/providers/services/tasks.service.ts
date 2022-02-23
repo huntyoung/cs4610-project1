@@ -26,8 +26,9 @@ export class TasksService {
 
     async updateCompleted(id: number) {
         let taskToUpdate = await this.taskRepository.findOne(id);
-        taskToUpdate.completed = true;
+        taskToUpdate.completed = !taskToUpdate.completed;
         await this.taskRepository.save(taskToUpdate);
+        return { taskToUpdate }
     }
 
     async assignUser(id: number, userid: number) {
