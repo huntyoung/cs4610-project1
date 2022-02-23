@@ -34,7 +34,11 @@ export class ProjectsService {
   }
 
   addUserToProject(userProject: UserProject) {
-    return this.userProjectRepository.save(userProject);
+    this.userProjectRepository.save(userProject);
+  }
+
+  getUserProject(userProject: UserProject) {
+    return this.userProjectRepository.findOne({ userId: userProject.userId, projectId: userProject.projectId });
   }
 
   removeProject(project: Project) {
