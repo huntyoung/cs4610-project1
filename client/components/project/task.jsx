@@ -3,16 +3,15 @@ import { ApiContext } from "../../utils/api_context";
 import { Button } from "../common/button";
 
 export const Task = ({ projectId, tasks, leader }) => {
-
   const api = useContext(ApiContext);
 
   const [userId, setUserId] = useState(null);
   const [completed, setCompleted] = useState(false);
 
-  useEffect(async() => {
-    const res = await api.get('/users/me')
+  useEffect(async () => {
+    const res = await api.get('/users/me');
     setUserId(res.user.id);
-  }, [])
+  }, []);
 
   const takeTask = async (taskId) => {
     console.log(taskId);
@@ -22,12 +21,11 @@ export const Task = ({ projectId, tasks, leader }) => {
 
   const completeTask = async (id) => {
     const complete = await api.put(`/projects/${projectId}/tasks/${id}`);
-  }
+  };
 
   const wrongUser = (taskUser) => {
     console.log("wrong user")
   }
-
 
   return (
     tasks.map((task) => (
@@ -56,4 +54,4 @@ export const Task = ({ projectId, tasks, leader }) => {
       </div>
     ))
   );
-}
+};

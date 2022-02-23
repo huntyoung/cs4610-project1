@@ -44,7 +44,7 @@ export const CreateTask = ({ addToList, projectId }) => {
   return (
     <div className="w-1/3">
       <Paper>
-        <h2 className="font-bold text-2xl">Create Project</h2>
+        <h2 className="font-bold text-2xl">Create Task</h2>
         <label htmlFor="task">Task Name</label>
         <Input name="task" placeholder="Task Name" value={taskName} onChange={(e) => setTaskName(e.target.value)} />
         <label htmlFor="estimation">Time Estimation (in hours)</label>
