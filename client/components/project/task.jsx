@@ -3,15 +3,14 @@ import { ApiContext } from "../../utils/api_context";
 import { Button } from "../common/button";
 
 export const Task = ({ projectId, tasks, leader }) => {
-
   const api = useContext(ApiContext);
 
   const [userId, setUserId] = useState(null);
 
-  useEffect(async() => {
-    const res = await api.get('/users/me')
+  useEffect(async () => {
+    const res = await api.get('/users/me');
     setUserId(res.user.id);
-  }, [])
+  }, []);
 
   const takeTask = async (taskId) => {
     const response = await api.put(`/projects/${projectId}/tasks/${taskId}/${userId}`);
@@ -20,7 +19,7 @@ export const Task = ({ projectId, tasks, leader }) => {
 
   const completeTask = async (id) => {
     const complete = await api.put(`/projects/${projectId}/tasks/${id}`);
-  }
+  };
 
   return (
     tasks.map((task) => (
@@ -49,4 +48,4 @@ export const Task = ({ projectId, tasks, leader }) => {
       </div>
     ))
   );
-}
+};
