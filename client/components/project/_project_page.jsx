@@ -22,7 +22,6 @@ export const ProjectPage = () => {
     const res = await api.get('/users/me');
     const project = await api.get(`/projects/${projectId}`);
     const tasks = await api.get(`projects/${projectId}/tasks`);
-    console.log(tasks.tasks[0]);
     setTasks(tasks.tasks);
     setProjCreator(project.project.creatorId);
     setProject(project.project);
