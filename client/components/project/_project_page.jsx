@@ -30,7 +30,6 @@ export const ProjectPage = () => {
     setUserId(res.user.id);
   }, []);
 
-
   const addUser = async () => {
     setSuccessMessage('');
     setErrorMessage('');
@@ -48,7 +47,7 @@ export const ProjectPage = () => {
         setSuccessMessage('User successfully added');
       } else setErrorMessage('User is already added');
     } else {
-      setErrorMessage('User does not exist or is already added');
+      setErrorMessage('User does not exist');
     }
   };
 
@@ -58,15 +57,25 @@ export const ProjectPage = () => {
 
   return (
     <>
-      <div>
-        <div>{name}</div>
-        <Input placeholder="Add User by Email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
-        <Button onClick={addUser}>Add User</Button>
-        <div className="text-red-600">{errorMessage}</div>
-        <div className="text-green-600">{successMessage}</div>
-      </div>
+      <div>{name}</div>
+      {projCreator === userId ? (
+        <div>
+          <div>{projectId}</div>
+          <Input
+            placeholder="Add User by Email"
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+          <Button onClick={addUser}>Add User</Button>
+          <div className="text-red-600">{errorMessage}</div>
+          <div className="text-green-600">{successMessage}</div>
+        </div>
+      ) : (
+        ''
+      )}
       <CreateTask addToList={addTask} projectId={projectId} />
-      <Task projectId={projectId} tasks={tasks} leader={projCreator} user={userId}/>
+      <Task projectId={projectId} tasks={tasks} leader={projCreator} user={userId} />
     </>
   );
 };
