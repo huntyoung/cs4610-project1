@@ -1,5 +1,6 @@
 import { useState } from "react"
 import { useContext } from "react";
+import { useEffect } from "react/cjs/react.production.min";
 import { ApiContext } from "../../utils/api_context";
 import { Button } from "../common/button";
 
@@ -7,10 +8,11 @@ import { Button } from "../common/button";
 
 export const TaskCard = ({ task, userId, projectId }) => {
   
-  const [completed, setCompleted] = useState(false);
+  const [completed, setCompleted] = useState(task.completed);
   const [taskUser, setTaskUser] = useState(task.userId);
 
   const api = useContext(ApiContext);
+
 
   const completeTask = async (id) => {
     const complete = await api.put(`/projects/${projectId}/tasks/${id}`);
