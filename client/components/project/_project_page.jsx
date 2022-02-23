@@ -4,7 +4,7 @@ import { ApiContext } from '../../utils/api_context';
 import { Button } from '../common/button';
 import { Input } from '../common/input';
 import { CreateTask } from './createTask';
-// import { Task } from './task';
+import { Task } from './task';
 
 export const ProjectPage = () => {
   const { id: projectId } = useParams();
@@ -17,15 +17,16 @@ export const ProjectPage = () => {
   const [userId, setUserId] = useState('');
   const [projCreator, setProjCreator] = useState(null);
   const [tasks, setTasks] = useState([]);
+  const [name, setName] = useState('');
 
   useEffect(async () => {
     const res = await api.get('/users/me');
     const project = await api.get(`/projects/${projectId}`);
     const tasks = await api.get(`projects/${projectId}/tasks`);
+    setName(project.project.name);
     setTasks(tasks.tasks);
     setProjCreator(project.project.creatorId);
     setProject(project.project);
-    console.log("I am " + res.user.id)
     setUserId(res.user.id);
   }, []);
 
@@ -56,6 +57,7 @@ export const ProjectPage = () => {
 
   return (
     <>
+      <div>{name}</div>
       {projCreator === userId ? (
         <div>
           <div>{projectId}</div>
@@ -73,7 +75,7 @@ export const ProjectPage = () => {
         ''
       )}
       <CreateTask addToList={addTask} projectId={projectId} />
-      {/* <Task projectId={projectId} tasks={tasks} leader={projCreator} user={userId} /> */}
+      <Task projectId={projectId} tasks={tasks} leader={projCreator} user={userId} />
     </>
   );
 };

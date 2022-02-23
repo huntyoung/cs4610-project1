@@ -46,9 +46,10 @@ export class TasksController{
       return { task }
   }
 
-  @Post('/projects/:project_id/tasks/:task_id/:id/')
+  @Put('/projects/:project_id/tasks/:task_id/')
   public async assignToUser(@Param('task_id') taskId: string, @JwtBody() JwtBody: JwtBodyDto) {
-      this.tasksService.assignUser(<number><unknown>taskId, JwtBody.userId);
+      const task = this.tasksService.assignUser(<number><unknown>taskId, JwtBody.userId);
+      return { task }
   }
 
 }
