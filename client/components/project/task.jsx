@@ -6,7 +6,6 @@ export const Task = ({ projectId, tasks, leader }) => {
   const api = useContext(ApiContext);
 
   const [userId, setUserId] = useState(null);
-  const [completed, setCompleted] = useState(false);
 
   useEffect(async () => {
     const res = await api.get('/users/me');
@@ -14,18 +13,13 @@ export const Task = ({ projectId, tasks, leader }) => {
   }, []);
 
   const takeTask = async (taskId) => {
-    console.log(taskId);
-    const response = await api.put(`/projects/${projectId}/tasks/${taskId}}`);
+    const response = await api.put(`/projects/${projectId}/tasks/${taskId}/${userId}`);
     console.log(response.response);
   }
 
   const completeTask = async (id) => {
     const complete = await api.put(`/projects/${projectId}/tasks/${id}`);
   };
-
-  const wrongUser = (taskUser) => {
-    console.log("wrong user")
-  }
 
   return (
     tasks.map((task) => (
